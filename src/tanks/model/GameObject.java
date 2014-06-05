@@ -8,12 +8,14 @@ public abstract class GameObject {
 							y_coordination,
 							z_rotation;
 	private BufferedImage 	image;
+	private Boolean			solid;
 	
-	public GameObject(BufferedImage img, int x, int y, int z) {
+	public GameObject(BufferedImage img, int x, int y, int z, boolean s) {
 		this.image = img;
-		this.x_coordination = x;
-		this.y_coordination = y;
-		this.z_rotation = z;
+		this.setX_coordination(x);
+		this.setY_coordination(y);;
+		this.setZ_rotation(z);
+		this.setSolid(s);
 	}
 
 	public int getX_coordination() {
@@ -42,6 +44,14 @@ public abstract class GameObject {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	public Boolean getSolid() {
+		return solid;
+	}
+
+	public void setSolid(Boolean solid) {
+		this.solid = solid;
 	}
 
 }
