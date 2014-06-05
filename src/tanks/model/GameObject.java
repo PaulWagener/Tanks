@@ -6,16 +6,18 @@ public abstract class GameObject {
 
 	private int 			x_coordination,
 							y_coordination,
-							z_rotation;
+							z_rotation,
+							speed;
 	private BufferedImage 	image;
 	private Boolean			solid;
 	
-	public GameObject(BufferedImage img, int x, int y, int z, boolean s) {
+	public GameObject(BufferedImage img, int x, int y, int z, boolean so, int sp) {
 		this.image = img;
 		this.setX_coordination(x);
 		this.setY_coordination(y);;
 		this.setZ_rotation(z);
-		this.setSolid(s);
+		this.setSolid(so);
+		this.setSpeed(sp);
 	}
 
 	public int getX_coordination() {
@@ -39,7 +41,7 @@ public abstract class GameObject {
 	}
 
 	public void setZ_rotation(int z_rotation) {
-		this.z_rotation = z_rotation;
+		this.z_rotation = z_rotation % 360;
 	}
 
 	public BufferedImage getImage() {
@@ -52,6 +54,14 @@ public abstract class GameObject {
 
 	public void setSolid(Boolean solid) {
 		this.solid = solid;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 }
