@@ -2,6 +2,8 @@ package tanks.gui;
 
 import javax.swing.JFrame;
 
+import tanks.controller.Controller;
+
 @SuppressWarnings("serial")
 public class TankFrame extends JFrame {
 
@@ -9,7 +11,7 @@ public class TankFrame extends JFrame {
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		setContentPane(new FieldPanel());
+		setContentPane(new FieldPanel(new Controller()));
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
