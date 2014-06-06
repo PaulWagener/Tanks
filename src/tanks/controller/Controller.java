@@ -33,7 +33,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	private int					aim_y;
 	private int					aim_rotation;
 	
-	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage;
+	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage, bulletImage;
 	private FieldPanel panel;
 	private boolean[]			tankControls, ufoControls;
 	
@@ -48,6 +48,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 			turretImage		= ImageIO.read(getClass().getResourceAsStream("/turret.png"));
 			tankImage		= ImageIO.read(getClass().getResourceAsStream("/tank.png"));
 			aimImage		= ImageIO.read(getClass().getResourceAsStream("/aim.png"));
+			bulletImage		= ImageIO.read(getClass().getResourceAsStream("/bullet.png"));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -148,7 +149,11 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	
 	public void keyTyped(KeyEvent e) 		{}
-	public void mouseClicked(MouseEvent e) 	{}
+
+	public void mouseClicked(MouseEvent e) 	{
+		projectiles.add(new Projectile(bulletImage, tank.getX_coordination(), tank.getY_coordination(), tank.getZ_rotation(), 1, 1, 1));
+	}
+
 	public void mouseEntered(MouseEvent e) 	{}
 	public void mouseExited(MouseEvent e) 	{}
 	public void mousePressed(MouseEvent e) 	{}
@@ -181,6 +186,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	public void setPanel(FieldPanel panel) {
 		panel.addMouseMotionListener(this);
+		panel.addMouseListener(this);
 		this.panel = panel;
 	}
 
