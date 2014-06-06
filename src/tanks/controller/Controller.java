@@ -27,19 +27,13 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	private List<Projectile>	projectiles;
 	private List<Wall>			walls;
 	
-	private BufferedImage		background, wall, crate;
+	private BufferedImage		background, wall, crate, tank;
 	private FieldPanel panel;
 	
 	public Controller() {
-		thread 		= new Thread(this);
-		tanks		= new Tank[] {
-				new Tank(null, 8, 8, 0, 10, 100), 
-				new Tank(null, 16, 16, 0, 10, 100)
-				};
-		crates		= new ArrayList<Crate>();
-		walls		= new ArrayList<Wall>();
-		projectiles	= new ArrayList<Projectile>();
+		// Load images
 		try {
+			tank		= ImageIO.read(getClass().getResourceAsStream("/tank+turret.png"));
 			background	= ImageIO.read(getClass().getResourceAsStream("/background.png"));
 			wall		= ImageIO.read(getClass().getResourceAsStream("/background.png"));
 			crate		= ImageIO.read(getClass().getResourceAsStream("/background.png"));
@@ -47,6 +41,16 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		thread 		= new Thread(this);
+		tanks		= new Tank[] {
+				new Tank(tank, 8, 8, 0, 10, 100),
+				new Tank(tank, 16, 16, 0, 10, 100)
+				};
+		crates		= new ArrayList<Crate>();
+		walls		= new ArrayList<Wall>();
+		projectiles	= new ArrayList<Projectile>();
+
 		thread.start();
 	}
 	
