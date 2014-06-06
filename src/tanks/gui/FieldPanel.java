@@ -11,7 +11,6 @@ import tanks.controller.Controller;
 import tanks.model.Crate;
 import tanks.model.GameObject;
 import tanks.model.Projectile;
-import tanks.model.Tank;
 import tanks.model.Wall;
 
 @SuppressWarnings("serial")
@@ -35,6 +34,7 @@ public class FieldPanel extends JPanel {
 		}
 		
 		draw(g2d, controller.getTank());
+		draw(g2d, controller.getTank().getTurret());
 		draw(g2d, controller.getUfo());
 		
 		for(Projectile p:controller.getProjectiles()) {

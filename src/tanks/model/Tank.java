@@ -4,9 +4,11 @@ import java.awt.image.BufferedImage;
 
 public class Tank extends GameObject {
 	private int reload;
+	private Turret turret;
 
-	public Tank(BufferedImage img, int x, int y, int z, int sp) {
-		super(img, x, y, z, true, sp);
+	public Tank(BufferedImage tank, BufferedImage turret, int x, int y, int z, int sp) {
+		super(tank, x, y, z, true, sp);
+		this.turret = new Turret(turret, x, y, z);
 	}
 
 	public int getReload() {
@@ -16,5 +18,7 @@ public class Tank extends GameObject {
 	public void setReload(int reload) {
 		this.reload = reload;
 	}
+	
+	public Turret getTurret() {return turret;}
 
 }

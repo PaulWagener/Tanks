@@ -48,7 +48,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		}
 
 		thread 		= new Thread(this);
-		tank		= new Tank(tankImage, 8, 8, 0, 10);
+		tank		= new Tank(tankImage, turretImage, 100, 100, 0, 10);
 		ufo			= new UFO(ufoImage, 200, 200, 0, 15, 100);
 		crates		= new ArrayList<Crate>();
 		walls		= new ArrayList<Wall>();
