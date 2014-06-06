@@ -11,7 +11,10 @@ public class TankFrame extends JFrame {
 		setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		setContentPane(new FieldPanel(new Controller()));
+		Controller controller = new Controller();
+		FieldPanel panel = new FieldPanel(controller);
+		controller.setPanel(panel);
+		setContentPane(panel);
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);

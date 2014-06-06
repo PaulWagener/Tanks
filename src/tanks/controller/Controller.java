@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import tanks.gui.FieldPanel;
 import tanks.model.Crate;
 import tanks.model.Projectile;
 import tanks.model.Tank;
@@ -27,6 +28,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	private List<Wall>			walls;
 	
 	private BufferedImage		background, wall, crate;
+	private FieldPanel panel;
 	
 	public Controller() {
 		thread 		= new Thread(this);
@@ -55,10 +57,37 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		
 	}
 
+	private void updateTank1() {
+		// Update position of red attacker tank
+
+		// Update position of turret
+	}
+
+	private void updateTank2() {
+		// Update position of blue defender tank
+	}
+
+	private void updateProjectiles() {
+		// Update position of all projectiles
+
+		// Collision detection with crates
+
+		// Collision detection with defender tank
+	}
+
 	public void run() {
+		// Game loop
 		while(true) {
 		
 			try {
+				updateTank1();
+				updateTank2();
+				updateProjectiles();
+
+				// Draw
+				if(panel != null)
+					panel.repaint();
+
 				Thread.sleep(1000/FPS);
 			} 
 			catch (InterruptedException e) {
@@ -91,5 +120,9 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	public BufferedImage getBackground()		{return background;}
 	public BufferedImage getWall()				{return wall;}
 	public BufferedImage getCrate()				{return crate;}
+
+	public void setPanel(FieldPanel panel) {
+		this.panel = panel;
+	}
 	
 }
