@@ -32,7 +32,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	private int					aim_y;
 	private int					aim_rotation;
 	
-	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage;
+	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage, bulletImage;
 	private FieldPanel panel;
 	private boolean[]			tankControls, ufoControls;
 	
@@ -47,6 +47,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 			turretImage		= ImageIO.read(getClass().getResourceAsStream("/turret.png"));
 			tankImage		= ImageIO.read(getClass().getResourceAsStream("/tank.png"));
 			aimImage		= ImageIO.read(getClass().getResourceAsStream("/aim.png"));
+			bulletImage		= ImageIO.read(getClass().getResourceAsStream("/bullet.png"));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -104,6 +105,10 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 
 	private void updateProjectiles() {
 		// Update position of all projectiles
+		for(Projectile p : projectiles) {
+			p.setX_coordination(p.getX_coordination() - (int)(Math.cos(Math.toRadians(p.getZ_rotation() - 90)) * p.getSpeed()));
+			p.setY_coordination(p.getY_coordination() - (int)(Math.sin(Math.toRadians(p.getZ_rotation() - 90)) * p.getSpeed()));
+		}
 
 		// Collision detection with crates
 
@@ -166,7 +171,11 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	
 	public void keyTyped(KeyEvent e) 		{}
-	public void mouseClicked(MouseEvent e) 	{}
+
+	public void mouseClicked(MouseEvent e) 	{
+		projectiles.add(new Projectile(bulletImage, tank.getTurret().getX_coordination(), tank.getTurret().getY_coordination(), tank.getTurret().getZ_rotation(), 1, 4, 1));
+	}
+
 	public void mouseEntered(MouseEvent e) 	{}
 	public void mouseExited(MouseEvent e) 	{}
 	public void mousePressed(MouseEvent e) 	{}
@@ -199,6 +208,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	public void setPanel(FieldPanel panel) {
 		panel.addMouseMotionListener(this);
+		panel.addMouseListener(this);
 		this.panel = panel;
 	}
 
