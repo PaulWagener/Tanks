@@ -56,7 +56,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 
 		thread 		= new Thread(this);
 		tank		= new Tank(tankImage, turretImage, 100, 100, 0, 4);
-		ufo			= new UFO(ufoImage, 200, 200, 0, 8, 100);
+		ufo			= new UFO(ufoImage, 200, 200, 0, 6, 100);
 		crates		= new ArrayList<Crate>();
 		walls		= new ArrayList<Wall>();
 		projectiles	= new ArrayList<Projectile>();
@@ -69,10 +69,21 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 
 	private void updateTank() {
 		// Update position of red attacker tank
-		if(tankControls[0]) tank.setY_coordination(tank.getY_coordination() - tank.getSpeed());
-		if(tankControls[2]) tank.setY_coordination(tank.getY_coordination() + tank.getSpeed());
-		if(tankControls[1]) tank.setX_coordination(tank.getX_coordination() - tank.getSpeed());
-		if(tankControls[3]) tank.setX_coordination(tank.getX_coordination() + tank.getSpeed());
+//		if(tankControls[0]) tank.setY_coordination(tank.getY_coordination() - tank.getSpeed());
+//		if(tankControls[2]) tank.setY_coordination(tank.getY_coordination() + tank.getSpeed());
+//		if(tankControls[1]) tank.setX_coordination(tank.getX_coordination() - tank.getSpeed());
+//		if(tankControls[3]) tank.setX_coordination(tank.getX_coordination() + tank.getSpeed());
+		if(tankControls[0]) {
+			tank.setX_coordination(tank.getX_coordination() + (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			tank.setY_coordination(tank.getY_coordination() + (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+		}
+		if(tankControls[2]) {
+			tank.setX_coordination(tank.getX_coordination() - (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			tank.setY_coordination(tank.getY_coordination() - (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+		}
+		
+		if(tankControls[1]) tank.setZ_rotation(tank.getZ_rotation() - 1);
+		if(tankControls[3]) tank.setZ_rotation(tank.getZ_rotation() + 1);
 		// Update position of turret
 		tank.getTurret().setX_coordination(tank.getX_coordination());
 		tank.getTurret().setY_coordination(tank.getY_coordination());
@@ -82,7 +93,11 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	}
 
 	private void updateUfo() {
-		// Update position of ufo
+		if(ufoControls[0]) ufo.setY_coordination(ufo.getY_coordination() - ufo.getSpeed());
+		if(ufoControls[2]) ufo.setY_coordination(ufo.getY_coordination() + ufo.getSpeed());
+		if(ufoControls[1]) ufo.setX_coordination(ufo.getX_coordination() - ufo.getSpeed());
+		if(ufoControls[3]) ufo.setX_coordination(ufo.getX_coordination() + ufo.getSpeed());
+		ufo.setZ_rotation(ufo.getZ_rotation() - 4);
 	}
 
 	private void updateProjectiles() {
