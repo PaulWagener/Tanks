@@ -3,11 +3,13 @@ package tanks.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
 import tanks.controller.Controller;
 import tanks.model.Crate;
+import tanks.model.GameObject;
 import tanks.model.Projectile;
 import tanks.model.Tank;
 import tanks.model.Wall;
@@ -26,19 +28,29 @@ public class FieldPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawImage(controller.getBackgroundImage(), 0, 0, null);
 		for(Wall w:controller.getWalls()) {
-			g2d.drawImage(w.getImage(), w.getX_coordination(), w.getY_coordination(), null);
+			draw(g2d, w);
 		}
 		for(Crate c:controller.getCrates()) {
-			g2d.drawImage(c.getImage(), c.getX_coordination(), c.getY_coordination(), null);
+			draw(g2d, c);
 		}
 		
-		g2d.drawImage(controller.getTank().getImage(), controller.getTank().getX_coordination(), controller.getTank().getY_coordination(), null);
-		
-		g2d.drawImage(controller.getUfo().getImage(), controller.getUfo().getX_coordination(), controller.getUfo().getY_coordination(), null);
+		draw(g2d, controller.getTank());
+		draw(g2d, controller.getUfo());
 		
 		for(Projectile p:controller.getProjectiles()) {
-			g2d.drawImage(p.getImage(), p.getX_coordination(), p.getY_coordination(), null);
+			draw(g2d, p);
 		}
+	}
+
+	private void draw(Graphics2D g, GameObject gameObject) {
+		AffineTransform at = new AffineTransform();
+		int center_x = gameObject.getImage().getWidth() / 2;
+		int center_y = gameObject.getImage().getHeight() / 2;
+
+		at.translate(gameObject.getX_coordination() - center_x, gameObject.getY_coordination() - center_y);
+		at.rotate(gameObject.getZ_rotation() / 180.0 * Math.PI, center_x, center_y);
+
+		g.drawImage(gameObject.getImage(), at, null);
 	}
 	
 }
