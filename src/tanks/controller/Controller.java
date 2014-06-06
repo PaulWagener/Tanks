@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.event.MouseInputListener;
 
 import tanks.gui.FieldPanel;
 import tanks.model.Crate;
@@ -18,7 +19,7 @@ import tanks.model.Tank;
 import tanks.model.UFO;
 import tanks.model.Wall;
 
-public class Controller implements Runnable, MouseListener, KeyListener {
+public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	private final int FPS = 60;
 	
@@ -28,9 +29,12 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	private List<Crate>			crates;
 	private List<Projectile>	projectiles;
 	private List<Wall>			walls;
+	private int					aim_x;
+	private int					aim_y;
+	private int					aim_rotation;
 	
-	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage;
-	private FieldPanel 			panel;
+	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage;
+	private FieldPanel panel;
 	private boolean[]			tankControls, ufoControls;
 	
 	public Controller() {
@@ -43,6 +47,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 			ufoImage		= ImageIO.read(getClass().getResourceAsStream("/ufo.png"));
 			turretImage		= ImageIO.read(getClass().getResourceAsStream("/turret.png"));
 			tankImage		= ImageIO.read(getClass().getResourceAsStream("/tank.png"));
+			aimImage		= ImageIO.read(getClass().getResourceAsStream("/aim.png"));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -81,6 +86,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		// Update position of turret
 		tank.getTurret().setX_coordination(tank.getX_coordination());
 		tank.getTurret().setY_coordination(tank.getY_coordination());
+		tank.getTurret().setZ_rotation((int)(Math.atan2(tank.getY_coordination() - aim_y, tank.getX_coordination() - aim_x) / Math.PI * 180.0) + 90);
 		// Shoot projectiles
 
 	}
@@ -101,6 +107,11 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		// Collision detection with defender tank
 	}
 
+	private void updateAim() {
+		// Cool little rotation animation
+		aim_rotation++;
+	}
+
 	public void run() {
 		// Game loop
 		while(true) {
@@ -109,6 +120,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 				updateTank();
 				updateUfo();
 				updateProjectiles();
+				updateAim();
 
 				// Draw
 				if(panel != null)
@@ -157,6 +169,15 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	public void mousePressed(MouseEvent e) 	{}
 	public void mouseReleased(MouseEvent e) {}
 	
+	@Override
+	public void mouseDragged(MouseEvent e) {}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		aim_x = e.getX();
+		aim_y = e.getY();
+	}
+
 	public List<Crate> getCrates() 				{return crates;}
 	public List<Projectile> getProjectiles() 	{return projectiles;}
 	public List<Wall> getWalls() 				{return walls;}
@@ -168,12 +189,26 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	public BufferedImage getTankImage()			{return tankImage;}
 	public BufferedImage getUfoImage()			{return ufoImage;}
 	public BufferedImage getTankTurretImage()	{return tankTurretImage;}
+	public BufferedImage getAimImage()			{return aimImage;}
 	
 	public UFO getUfo()							{return ufo;}
 	public Tank getTank() 						{return tank;}
 	
 	public void setPanel(FieldPanel panel) {
+		panel.addMouseMotionListener(this);
 		this.panel = panel;
 	}
+
+	public int getAimX() {
+		return aim_x;
+	}
+
+	public int getAimY() {
+		return aim_y;
+	}
 	
+	public int getAimRotation() {
+		return aim_rotation;
+	}
+
 }
