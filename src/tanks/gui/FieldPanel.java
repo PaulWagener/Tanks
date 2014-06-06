@@ -3,7 +3,9 @@ package tanks.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -22,6 +24,11 @@ public class FieldPanel extends JPanel {
 	public FieldPanel(Controller con) {
 		setPreferredSize(new Dimension(600, 600));
 		controller = con;
+
+		// Hide cursor
+		setCursor(getToolkit().createCustomCursor(
+	            new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+	            "null"));
 	}
 
 	public void paintComponent(Graphics g) {
@@ -40,17 +47,24 @@ public class FieldPanel extends JPanel {
 		for(Projectile p:controller.getProjectiles()) {
 			draw(g2d, p);
 		}
+
+		// Draw aim
+		draw(g2d, controller.getAimX(), controller.getAimY(), controller.getAimRotation(), controller.getAimImage());
 	}
 
 	private void draw(Graphics2D g, GameObject gameObject) {
+		draw(g, gameObject.getX_coordination(), gameObject.getY_coordination(), gameObject.getZ_rotation(), gameObject.getImage());
+	}
+
+	private void draw(Graphics2D g, int x, int y, int rotation, BufferedImage image) {
 		AffineTransform at = new AffineTransform();
-		int center_x = gameObject.getImage().getWidth() / 2;
-		int center_y = gameObject.getImage().getHeight() / 2;
+		int center_x = image.getWidth() / 2;
+		int center_y = image.getHeight() / 2;
 
-		at.translate(gameObject.getX_coordination() - center_x, gameObject.getY_coordination() - center_y);
-		at.rotate(gameObject.getZ_rotation() / 180.0 * Math.PI, center_x, center_y);
+		at.translate(x - center_x, y - center_y);
+		at.rotate(rotation / 180.0 * Math.PI, center_x, center_y);
 
-		g.drawImage(gameObject.getImage(), at, null);
+		g.drawImage(image, at, null);
 	}
 	
 }
