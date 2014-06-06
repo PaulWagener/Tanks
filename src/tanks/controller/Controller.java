@@ -73,12 +73,12 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 //		if(tankControls[1]) tank.setX_coordination(tank.getX_coordination() - tank.getSpeed());
 //		if(tankControls[3]) tank.setX_coordination(tank.getX_coordination() + tank.getSpeed());
 		if(tankControls[0]) {
-			tank.setX_coordination(tank.getX_coordination() + (int)(Math.cos(tank.getZ_rotation() - 90) * tank.getSpeed()));
-			tank.setY_coordination(tank.getY_coordination() + (int)(Math.sin(tank.getZ_rotation() - 90) * tank.getSpeed()));
+			tank.setX_coordination(tank.getX_coordination() + (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			tank.setY_coordination(tank.getY_coordination() + (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
 		}
 		if(tankControls[2]) {
-			tank.setX_coordination(tank.getX_coordination() - (int)(Math.cos(tank.getZ_rotation() - 90) * tank.getSpeed()));
-			tank.setY_coordination(tank.getY_coordination() - (int)(Math.sin(tank.getZ_rotation() - 90) * tank.getSpeed()));
+			tank.setX_coordination(tank.getX_coordination() - (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			tank.setY_coordination(tank.getY_coordination() - (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
 		}
 		
 		if(tankControls[1]) tank.setZ_rotation(tank.getZ_rotation() - 1);
