@@ -15,6 +15,7 @@ import tanks.gui.FieldPanel;
 import tanks.model.Crate;
 import tanks.model.Projectile;
 import tanks.model.Tank;
+import tanks.model.UFO;
 import tanks.model.Wall;
 
 public class Controller implements Runnable, MouseListener, KeyListener {
@@ -22,31 +23,33 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 	private final int FPS = 60;
 	
 	private Thread 				thread;
-	private Tank[]				tanks;
+	private Tank				tank;
+	private UFO					ufo;
 	private List<Crate>			crates;
 	private List<Projectile>	projectiles;
 	private List<Wall>			walls;
 	
-	private BufferedImage		background, wall, crate, tank;
+	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage;
 	private FieldPanel panel;
 	
 	public Controller() {
 		// Load images
 		try {
-			tank		= ImageIO.read(getClass().getResourceAsStream("/tank+turret.png"));
-			background	= ImageIO.read(getClass().getResourceAsStream("/background.png"));
-			wall		= ImageIO.read(getClass().getResourceAsStream("/background.png"));
-			crate		= ImageIO.read(getClass().getResourceAsStream("/background.png"));
+			tankTurretImage	= ImageIO.read(getClass().getResourceAsStream("/tank+turret.png"));
+			backgroundImage	= ImageIO.read(getClass().getResourceAsStream("/background.png"));
+			wallImage		= ImageIO.read(getClass().getResourceAsStream("/wall.png"));
+			crateImage		= ImageIO.read(getClass().getResourceAsStream("/crate.png"));
+			ufoImage		= ImageIO.read(getClass().getResourceAsStream("/ufo.png"));
+			turretImage		= ImageIO.read(getClass().getResourceAsStream("/turret.png"));
+			tankImage		= ImageIO.read(getClass().getResourceAsStream("/tank.png"));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		thread 		= new Thread(this);
-		tanks		= new Tank[] {
-				new Tank(tank, 8, 8, 0, 10, 100),
-				new Tank(tank, 16, 16, 0, 10, 100)
-				};
+		tank		= new Tank(tankImage, 8, 8, 0, 10);
+		ufo			= new UFO(ufoImage, 200, 200, 0, 15, 100);
 		crates		= new ArrayList<Crate>();
 		walls		= new ArrayList<Wall>();
 		projectiles	= new ArrayList<Projectile>();
@@ -61,7 +64,7 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		
 	}
 
-	private void updateTank1() {
+	private void updateTank() {
 		// Update position of red attacker tank
 
 		// Update position of turret
@@ -70,8 +73,8 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 
 	}
 
-	private void updateTank2() {
-		// Update position of blue defender tank
+	private void updateUfo() {
+		// Update position of ufo
 	}
 
 	private void updateProjectiles() {
@@ -87,8 +90,8 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		while(true) {
 		
 			try {
-				updateTank1();
-				updateTank2();
+				updateTank();
+				updateUfo();
 				updateProjectiles();
 
 				// Draw
@@ -119,15 +122,21 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 
 	public void mouseReleased(MouseEvent e) {}
 	
-	public Tank[] getTanks() 					{return tanks;}
 	public List<Crate> getCrates() 				{return crates;}
 	public List<Projectile> getProjectiles() 	{return projectiles;}
 	public List<Wall> getWalls() 				{return walls;}
 	
-	public BufferedImage getBackground()		{return background;}
-	public BufferedImage getWall()				{return wall;}
-	public BufferedImage getCrate()				{return crate;}
-
+	public BufferedImage getBackgroundImage()	{return backgroundImage;}
+	public BufferedImage getWallImage()			{return wallImage;}
+	public BufferedImage getCrateImage()		{return crateImage;}
+	public BufferedImage getTurretImage()		{return turretImage;}
+	public BufferedImage getTankImage()			{return tankImage;}
+	public BufferedImage getUfoImage()			{return ufoImage;}
+	public BufferedImage getTankTurretImage()	{return tankTurretImage;}
+	
+	public UFO getUfo()							{return ufo;}
+	public Tank getTank() 						{return tank;}
+	
 	public void setPanel(FieldPanel panel) {
 		this.panel = panel;
 	}
