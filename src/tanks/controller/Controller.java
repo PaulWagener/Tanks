@@ -102,6 +102,10 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 
 	private void updateProjectiles() {
 		// Update position of all projectiles
+		for(Projectile p : projectiles) {
+			p.setX_coordination(p.getX_coordination() - (int)(Math.cos(Math.toRadians(p.getZ_rotation() - 90)) * p.getSpeed()));
+			p.setY_coordination(p.getY_coordination() - (int)(Math.sin(Math.toRadians(p.getZ_rotation() - 90)) * p.getSpeed()));
+		}
 
 		// Collision detection with crates
 
@@ -166,7 +170,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	public void keyTyped(KeyEvent e) 		{}
 
 	public void mouseClicked(MouseEvent e) 	{
-		projectiles.add(new Projectile(bulletImage, tank.getX_coordination(), tank.getY_coordination(), tank.getZ_rotation(), 1, 1, 1));
+		projectiles.add(new Projectile(bulletImage, tank.getTurret().getX_coordination(), tank.getTurret().getY_coordination(), tank.getTurret().getZ_rotation(), 1, 4, 1));
 	}
 
 	public void mouseEntered(MouseEvent e) 	{}

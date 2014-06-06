@@ -41,12 +41,13 @@ public class FieldPanel extends JPanel {
 		}
 		
 		draw(g2d, controller.getTank());
-		draw(g2d, controller.getTank().getTurret());
 		draw(g2d, controller.getUfo());
 		
 		for(Projectile p:controller.getProjectiles()) {
 			draw(g2d, p);
 		}
+		
+		draw(g2d, controller.getTank().getTurret());
 
 		// Draw aim
 		draw(g2d, controller.getAimX(), controller.getAimY(), controller.getAimRotation(), controller.getAimImage());
