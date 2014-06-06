@@ -35,6 +35,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 	
 	private BufferedImage		backgroundImage, wallImage, crateImage, tankImage, ufoImage, tankTurretImage, turretImage, aimImage;
 	private FieldPanel panel;
+	private boolean[]			tankControls, ufoControls;
 	
 	public Controller() {
 		// Load images
@@ -53,27 +54,27 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 		}
 
 		thread 		= new Thread(this);
-		tank		= new Tank(tankImage, 8, 8, 0, 10);
-		ufo			= new UFO(ufoImage, 200, 200, 0, 15, 100);
+		tank		= new Tank(tankImage, turretImage, 100, 100, 0, 4);
+		ufo			= new UFO(ufoImage, 200, 200, 0, 8, 100);
 		crates		= new ArrayList<Crate>();
 		walls		= new ArrayList<Wall>();
 		projectiles	= new ArrayList<Projectile>();
+		
+		tankControls = new boolean[] {false, false, false, false};
+		ufoControls	 = new boolean[] {false, false, false, false};
 
 		thread.start();
-	}
-	
-	private void createField() {
-		// Create all crates
-		
-		// Create all tanks
-		
 	}
 
 	private void updateTank() {
 		// Update position of red attacker tank
-
+		if(tankControls[0]) tank.setY_coordination(tank.getY_coordination() - tank.getSpeed());
+		if(tankControls[2]) tank.setY_coordination(tank.getY_coordination() + tank.getSpeed());
+		if(tankControls[1]) tank.setX_coordination(tank.getX_coordination() - tank.getSpeed());
+		if(tankControls[3]) tank.setX_coordination(tank.getX_coordination() + tank.getSpeed());
 		// Update position of turret
-
+		tank.getTurret().setX_coordination(tank.getX_coordination());
+		tank.getTurret().setY_coordination(tank.getY_coordination());
 		// Shoot projectiles
 
 	}
@@ -117,20 +118,39 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 		}
 	}
 
-	public void keyPressed(KeyEvent e) 		{}
+	public void keyPressed(KeyEvent e) 		{
+		int code = e.getKeyCode();
+		if(code == KeyEvent.VK_W) 		ufoControls[0] = true;
+		if(code == KeyEvent.VK_A) 		ufoControls[1] = true;
+		if(code == KeyEvent.VK_S) 		ufoControls[2] = true;
+		if(code == KeyEvent.VK_D) 		ufoControls[3] = true;
+		
+		if(code == KeyEvent.VK_UP) 		tankControls[0] = true;
+		if(code == KeyEvent.VK_LEFT) 	tankControls[1] = true;
+		if(code == KeyEvent.VK_DOWN) 	tankControls[2] = true;
+		if(code == KeyEvent.VK_RIGHT) 	tankControls[3] = true;
+	}
 
-	public void keyReleased(KeyEvent e) 	{}
+	public void keyReleased(KeyEvent e) 	{
+		int code = e.getKeyCode();
+		if(code == KeyEvent.VK_W) 		ufoControls[0] = false;
+		if(code == KeyEvent.VK_A) 		ufoControls[1] = false;
+		if(code == KeyEvent.VK_S) 		ufoControls[2] = false;
+		if(code == KeyEvent.VK_D) 		ufoControls[3] = false;
+		
+		if(code == KeyEvent.VK_UP) 		tankControls[0] = false;
+		if(code == KeyEvent.VK_LEFT) 	tankControls[1] = false;
+		if(code == KeyEvent.VK_DOWN) 	tankControls[2] = false;
+		if(code == KeyEvent.VK_RIGHT) 	tankControls[3] = false;
+	}
 
+	
+	
 	public void keyTyped(KeyEvent e) 		{}
-
 	public void mouseClicked(MouseEvent e) 	{}
-
 	public void mouseEntered(MouseEvent e) 	{}
-
 	public void mouseExited(MouseEvent e) 	{}
-
 	public void mousePressed(MouseEvent e) 	{}
-
 	public void mouseReleased(MouseEvent e) {}
 	
 	@Override
