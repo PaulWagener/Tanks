@@ -61,6 +61,9 @@ public class Controller implements Runnable, MouseListener, KeyListener {
 		// Update position of red attacker tank
 
 		// Update position of turret
+
+		// Shoot projectiles
+
 	}
 
 	private void updateTank2() {
