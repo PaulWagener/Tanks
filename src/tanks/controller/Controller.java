@@ -75,6 +75,7 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 		// Update position of turret
 		tank.getTurret().setX_coordination(tank.getX_coordination());
 		tank.getTurret().setY_coordination(tank.getY_coordination());
+		tank.getTurret().setZ_rotation((int)(Math.atan2(tank.getY_coordination() - aim_y, tank.getX_coordination() - aim_x) / Math.PI * 180.0) + 90);
 		// Shoot projectiles
 
 	}
