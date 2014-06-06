@@ -13,6 +13,7 @@ public class TankFrame extends JFrame {
 		setResizable(false);
 		Controller controller = new Controller();
 		FieldPanel panel = new FieldPanel(controller);
+		addKeyListener(controller);
 		controller.setPanel(panel);
 		setContentPane(panel);
 		pack();
