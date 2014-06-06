@@ -19,9 +19,11 @@ import tanks.model.Wall;
 public class FieldPanel extends JPanel {
 
 	private Controller controller;
+	public static final int WIDTH = 600;
+	public static final int HEIGHT = 600;
 	
 	public FieldPanel(Controller con) {
-		setPreferredSize(new Dimension(600, 600));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		controller = con;
 
 		// Hide cursor

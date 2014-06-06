@@ -3,7 +3,6 @@ package tanks.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,16 +72,20 @@ public class Controller implements Runnable, MouseInputListener, KeyListener {
 //		if(tankControls[1]) tank.setX_coordination(tank.getX_coordination() - tank.getSpeed());
 //		if(tankControls[3]) tank.setX_coordination(tank.getX_coordination() + tank.getSpeed());
 		if(tankControls[0]) {
-			tank.setX_coordination(tank.getX_coordination() + (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
-			tank.setY_coordination(tank.getY_coordination() + (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			int newX = tank.getX_coordination() + (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed());
+			int newY = tank.getY_coordination() + (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed());
+			if(newX >= 20 && newX <= FieldPanel.WIDTH - 20) {tank.setX_coordination(newX);}
+			if(newY >= 20 && newY <= FieldPanel.HEIGHT - 20) {tank.setY_coordination(newY);}
 		}
 		if(tankControls[2]) {
-			tank.setX_coordination(tank.getX_coordination() - (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
-			tank.setY_coordination(tank.getY_coordination() - (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed()));
+			int newX = tank.getX_coordination() - (int)(Math.cos(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed());
+			int newY = tank.getY_coordination() - (int)(Math.sin(Math.toRadians(tank.getZ_rotation() - 90)) * tank.getSpeed());
+			if(newX >= 20 && newX <= FieldPanel.WIDTH - 20) {tank.setX_coordination(newX);}
+			if(newY >= 20 && newY <= FieldPanel.HEIGHT - 20) {tank.setY_coordination(newY);}
 		}
 		
-		if(tankControls[1]) tank.setZ_rotation(tank.getZ_rotation() - 1);
-		if(tankControls[3]) tank.setZ_rotation(tank.getZ_rotation() + 1);
+		if(tankControls[1]) tank.setZ_rotation(tank.getZ_rotation() - 4);
+		if(tankControls[3]) tank.setZ_rotation(tank.getZ_rotation() + 4);
 		// Update position of turret
 		tank.getTurret().setX_coordination(tank.getX_coordination());
 		tank.getTurret().setY_coordination(tank.getY_coordination());
