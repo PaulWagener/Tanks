@@ -9,7 +9,7 @@ public class Crate extends GameObject {
 	public Crate(BufferedImage img, int x, int y, int m) {
 		super(img, x, y, 0, false, 0);
 		this.setMaxDamage(m);
-		this.setCurrentDamage(0);
+		this.currentDamage = 0;
 	}
 
 	public int getMaxDamage() {
@@ -24,8 +24,15 @@ public class Crate extends GameObject {
 		return currentDamage;
 	}
 
-	public void setCurrentDamage(int currentDamage) {
-		this.currentDamage = currentDamage;
+	public void damage(int dmg) {
+		this.currentDamage = dmg + this.currentDamage;
+	}
+	
+	public boolean alive(){
+		if(this.getMaxDamage() == this.getCurrentDamage())
+			return false;
+		else 
+			return true;
 	}
 
 }
